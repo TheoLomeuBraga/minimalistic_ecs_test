@@ -1,8 +1,8 @@
 #pragma once
-#include "mecs.h"
+#include "mecs/mecs.h"
 #include <map>
 
-class Person : public Component_Basis
+class Person
 {
 
 public:
@@ -21,7 +21,7 @@ public:
         this->age = age;
     }
 
-    static void add(Entity entity, Component_Basis *component)
+    static void add(Entity entity, void *component)
     {
         if (Persons.find(entity) == Persons.end())
         {
@@ -37,8 +37,11 @@ public:
     {
         if (Persons.find(entity) != Persons.end())
         {
+            std::cout << "goodbye: " << Persons[entity].name << std::endl;
             Persons.erase(entity);
         }
     }
 };
 std::map<Entity, Person> Person::Persons = {};
+
+Register_System personregister(Person::add,Person::run,Person::remove);

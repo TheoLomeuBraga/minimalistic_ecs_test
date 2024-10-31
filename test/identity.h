@@ -1,14 +1,14 @@
-#include "mecs.h"
+#include "mecs/mecs.h"
 #include "person.h"
 
-class Identity : public Component_Basis
+class Identity
 {
 public:
     static std::map<Entity, Identity> identitys;
 
     Identity(){}
 
-    static void add(Entity entity,Component_Basis* component)
+    static void add(Entity entity,void *component)
     {
         if (identitys.find(entity) == identitys.end()){
             identitys.insert(std::pair<Entity, Identity>(entity,*(Identity*)component));
@@ -34,4 +34,4 @@ public:
 };
 std::map<Entity, Identity> Identity::identitys = {};
 
-Register_System identityregister({Identity::add,Identity::run,Identity::remove});
+Register_System identityregister(Identity::add,Identity::run,Identity::remove);

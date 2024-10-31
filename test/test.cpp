@@ -1,7 +1,7 @@
 #include <iostream>
 
 #define MAX_ENTITIES 16
-#include "mecs.h"
+#include "mecs/mecs.h"
 
 
 #include "identity.h"
@@ -37,11 +37,15 @@ int main(void)
     Identity::run(e1);
     Identity::run(e2);
 
+    std::cout << "is e1 valid " << is_entity_valid(e1) << std::endl;
+
     remove_entity(e1);
     remove_entity(e2);
     remove_entity(e3);
     remove_entity(e4);
     remove_entity(e5);
+
+    std::cout << "is e1 valid " << is_entity_valid(e1) << std::endl;
 
     e1 = new_entity();
     e2 = new_entity();
@@ -65,7 +69,7 @@ int main(void)
 
     while (true)
     {
-        std::cout << (int)new_entity() << std::endl;
+        new_entity();
     }
 
     return (0);
