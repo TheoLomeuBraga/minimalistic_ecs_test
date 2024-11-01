@@ -6,7 +6,7 @@ class Person
 {
 
 public:
-    static std::map<Entity, Person> Persons;
+    static std::map<Entity, Person> persons;
 
     std::string name;
     unsigned int age;
@@ -23,10 +23,18 @@ public:
 
     static void add(Entity entity, void *component)
     {
-        if (Persons.find(entity) == Persons.end())
+        if (persons.find(entity) == persons.end())
         {
-            Persons.insert(std::pair<Entity, Person>(entity, *(Person *)component));
+            persons.insert(std::pair<Entity, Person>(entity, *(Person *)component));
         }
+    }
+
+    static void *get(Entity entity)
+    {
+        if (persons.find(entity) != persons.end() && Person::persons.find(entity) != Person::persons.end()){
+            return &persons[entity];
+        }
+        return NULL;
     }
 
     static void run(Entity entity)
@@ -35,13 +43,13 @@ public:
 
     static void remove(Entity entity)
     {
-        if (Persons.find(entity) != Persons.end())
+        if (persons.find(entity) != persons.end())
         {
-            std::cout << "goodbye: " << Persons[entity].name << std::endl;
-            Persons.erase(entity);
+            std::cout << "goodbye: " << persons[entity].name << std::endl;
+            persons.erase(entity);
         }
     }
 };
-std::map<Entity, Person> Person::Persons = {};
+std::map<Entity, Person> Person::persons = {};
 
-Register_System personregister(Person::add,Person::run,Person::remove);
+Register_System personregister(Person::add,Person::get,Person::run,Person::remove);

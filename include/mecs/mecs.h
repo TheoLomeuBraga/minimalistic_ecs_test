@@ -22,6 +22,7 @@ Entity next_entity = 0;
 typedef struct struct_System
 {
     void (*add)(Entity, void *);
+    void *(*get)(Entity);
     void (*run)(Entity);
     void (*remove)(Entity);
 } System;
@@ -32,12 +33,14 @@ class Register_System
 {
 public:
     Register_System(void (*add)(Entity, void *),
+                    void *(*get)(Entity),
                     void (*run)(Entity),
                     void (*remove)(Entity))
     {
         System system;
 
         system.add = add;
+        system.get = get;
         system.run = run;
         system.remove = remove;
 

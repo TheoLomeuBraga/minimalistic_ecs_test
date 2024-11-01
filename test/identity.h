@@ -15,10 +15,18 @@ public:
         }
     }
 
+    static void *get(Entity entity)
+    {
+        if (identitys.find(entity) != identitys.end()){
+            return &identitys[entity];
+        }
+        return NULL;
+    }
+
     static void run(Entity entity)
     {
-        if (identitys.find(entity) != identitys.end() && Person::Persons.find(entity) != Person::Persons.end()){
-            Person *p = &Person::Persons[entity];
+        if (identitys.find(entity) != identitys.end() && Person::get(entity)){
+            Person *p = (Person*)Person::get(entity);
             std::cout << "name: " << p->name << std::endl;
             std::cout << "age: "  << p->age << std::endl;
 
@@ -34,4 +42,4 @@ public:
 };
 std::map<Entity, Identity> Identity::identitys = {};
 
-Register_System identityregister(Identity::add,Identity::run,Identity::remove);
+Register_System identityregister(Identity::add,Identity::get,Identity::run,Identity::remove);
